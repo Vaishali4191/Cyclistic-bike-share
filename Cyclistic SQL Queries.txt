@@ -1,0 +1,144 @@
+-- Create a new table consisting all 12 months data
+
+CREATE TABLE  my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data AS
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202004  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202005  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202006  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202007  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202009  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202010  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202011  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202012  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202101  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202102  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202103  UNION ALL
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.202104
+
+
+-- View Table
+
+SELECT * FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+
+
+-- Findind total number of rides by Casual and annual members
+
+SELECT member_casual, COUNT(*) AS No_of_rides FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY member_casual
+ORDER BY COUNT(*) DESC
+
+
+-- Finding total number of rideable type, member_casual 
+
+SELECT rideable_type,member_casual, COUNT(*) FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY rideable_type, member_casual
+ORDER BY member_casual
+
+
+-- Finding total no of rides
+
+SELECT COUNT(*) FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+
+
+-- Finding total no of round trips
+
+SELECT COUNT(*) FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+WHERE start_station_name = end_station_name
+
+SELECT start_station_id,end_station_id,rideable_type,member_casual FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+WHERE start_station_name = end_station_name
+
+
+-- check distinct member_casual
+
+SELECT DISTINCT member_casual FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+
+
+-- Check if Ride_ids are unique
+
+SELECT ride_id, COUNT(1)
+FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY ride_id
+HAVING COUNT(1) > 1
+
+
+-- chk the lattitude and longitudes
+
+SELECT min(start_lat), max(start_lat), min(start_lng), max(start_lng), 
+       min(end_lat), max(end_lat), min(end_lng), max(end_lng)
+FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+
+
+-- Finding most popular start_station
+
+SELECT start_station_name, COUNT(*) as rides FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY Start_station_name
+ORDER BY rides DESC
+
+SELECT start_station_name, end_station_name, member_casual,COUNT(*) as rides FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY Start_station_name,end_station_name,member_casual
+ORDER BY rides DESC
+
+
+-- Finding total rides ending at each station
+SELECT end_station_name, COUNT(*) as rides FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY end_station_name
+ORDER BY rides DESC
+
+
+-- Finding total rides starting at each station
+SELECT start_station_id,start_station_name, COUNT(*) as rides FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY start_station_id,start_station_name
+ORDER BY rides DESC
+
+
+-- Finding total no of round trips
+
+SELECT start_station_name,rideable_type,member_casual, COUNT(*) as rides 
+FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+WHERE start_station_id = end_station_id
+GROUP BY start_station_name,rideable_type, member_casual	
+ORDER BY start_station_name, rideable_type,COUNT(*) desc
+
+
+-- No of rides for member_type month wise
+
+SELECT FORMAT_DATE("%B-%Y",started_at_date) AS Mon_year,member_casual, COUNT(*) AS no_of_rides 
+FROM  my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY FORMAT_DATE("%B-%Y",started_at_date), member_casual
+
+
+-- No of round trips rides for member_type month wise 
+
+SELECT FORMAT_DATE("%B-%Y",started_at_date) AS Mon_year,member_casual, COUNT(*) AS no_of_rides 
+FROM  my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+WHERE start_station_id = end_station_id
+GROUP BY FORMAT_DATE("%B-%Y",started_at_date), member_casual
+
+
+-- Popular day by user type
+
+SELECT FORMAT_DATE("%A",started_at_date) AS Hour,member_casual, COUNT(*) AS no_of_rides 
+FROM  my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY FORMAT_DATE("%A",started_at_date), member_casual
+
+
+-- Popular hour by user type
+
+SELECT started_at_time as hour, rideable_type, start_station_name
+FROM my-project-vs-366201.Cyclistic_Bike_Share.Cyclistic_data
+GROUP BY hour, start_station_name, rideable_type
+ORDER BY hour
+
+
+
+
+
+
+
+
+
+
+
+
+
+
