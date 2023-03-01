@@ -16,6 +16,11 @@ Created separate columns for Date and Time and changed the data type of start_st
 After that uploaded all 12 files into Big Query and combined them into one.
 I have not deleted NULL here as it might impact the analysis.
 
+
+![Member casual](https://user-images.githubusercontent.com/126613112/222023091-8992d3c2-d45f-4ce6-8a99-83234183a639.png)
+
+
+
 -- Summary
 
 Annual members' rides are higher than the casual members.
